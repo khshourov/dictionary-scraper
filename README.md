@@ -1,1 +1,1 @@
-# dictionary-scrapper
+# dictionary-scraper

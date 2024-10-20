@@ -6,8 +6,8 @@ import json from '@rollup/plugin-json';
 export default [{
   input: 'dist/index.js',
   output: {
-    name: "DictionaryScrapper",
-    file: "dist/dictionary-scrapper.min.js",
+    name: "DictionaryScraper",
+    file: "dist/dictionary-scraper.min.js",
     format: 'iife',
     sourcemap: true,
   },

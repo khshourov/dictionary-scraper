@@ -1,9 +1,9 @@
 {
-  "name": "dictionary-scrapper",
+  "name": "dictionary-scraper",
   "version": "1.0.0",
   "description": "Scrape dictionaries such as Cambridge and Oxford to generate structured data for a given word search",
   "main": "dist/index.js",
-  "browser": "dist/dictionary-scrapper.min.js",
+  "browser": "dist/dictionapy-scraper.min.js",
   "scripts": {
     "build": "tsc",
     "test": "jest",
@@ -16,18 +16,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/khshourov/dictionary-scrapper.git"
+    "url": "git+https://github.com/khshourov/dictionary-scraper.git"
   },
   "keywords": [
-    "OnlineDictionaryScrapper",
+    "OnlineDictionaryScraper",
     "Pronunciation"
   ],
   "author": "Kamrul H Shourov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/khshourov/dictionary-scrapper/issues"
+    "url": "https://github.com/khshourov/dictionary-scraper/issues"
   },
-  "homepage": "https://github.com/khshourov/dictionary-scrapper#readme",
+  "homepage": "https://github.com/khshourov/dictionary-scraper#readme",
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.16.4",
     "@eslint/js": "^9.13.0",

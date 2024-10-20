@@ -2,7 +2,7 @@ import { CambridgeReader } from './readers';
 import { CambridgeScraper } from './scrapers';
 import { Source, Word, Reader, Scraper } from './types';
 
-export default class DictionaryScrapper {
+export default class DictionaryScraper {
   private readonly channels: Source[] = ['cambridge'];
   private readonly scrapers: Map<Source, Scraper> = new Map();
   private readers: Map<Source, Reader> = new Map();
