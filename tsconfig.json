@@ -6,7 +6,7 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
-    "verbatimModuleSyntax": true,
+    // "verbatimModuleSyntax": true,
 
     "strict": true,
     "allowUnusedLabels": false,
