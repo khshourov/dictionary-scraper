@@ -4,7 +4,6 @@
   "description": "Scrape dictionaries such as Cambridge and Oxford to generate structured data for a given word search",
   "main": "dist/index.js",
   "browser": "dist/dictionary-scrapper.min.js",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "jest",
