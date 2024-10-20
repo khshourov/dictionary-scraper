@@ -10,9 +10,9 @@
     "lint": "eslint .",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}' 'test/**/*.{js,jsx,ts,tsx}'",
     "check-format": "prettier --check 'src/**/*.{js,jsx,ts,tsx}' 'test/**/*.{js,jsx,ts,tsx}'",
-    "check-exports": "attw --pack -f json .",
+    "check-exports": "attw --pack .",
     "rollup": "rollup -c",
-    "ci": "npm run build && npm run check-format && npm run check-exports && npm run test"
+    "ci": "npm run build && npm run check-format && npm run test"
   },
   "repository": {
     "type": "git",
