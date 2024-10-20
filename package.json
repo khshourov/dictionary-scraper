@@ -8,7 +8,7 @@
     "build": "tsc",
     "test": "jest",
     "lint": "eslint .",
-    "format": "prettier --write .",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}' 'test/**/*.{js,jsx,ts,tsx}'",
     "check-format": "prettier --check .",
     "check-exports": "attw --pack .",
     "rollup": "rollup -c",
