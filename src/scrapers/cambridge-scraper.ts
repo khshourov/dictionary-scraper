@@ -26,6 +26,8 @@ export default class CambridgeScraper implements Scraper {
 
     const entry: Word['entry'] = {};
     const data = await this.reader.read(word, 'pronunciation');
+    if (!data) return undefined;
+
     entry.ipa_listings = this.extractIPAListings(data);
     if (!entry.ipa_listings) return undefined;
 

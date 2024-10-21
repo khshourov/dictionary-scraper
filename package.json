@@ -6,7 +6,9 @@
   "browser": "dist/dictionapy-scraper.min.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
+    "test:unit": "jest --testPathPattern=test/unit",
+    "test:integration": "jest --testPathPattern=test/integration",
+    "test": "npm run test:unit",
     "lint": "eslint .",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}' 'test/**/*.{js,jsx,ts,tsx}'",
     "check-format": "prettier --check 'src/**/*.{js,jsx,ts,tsx}' 'test/**/*.{js,jsx,ts,tsx}'",

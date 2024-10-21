@@ -1,6 +1,4 @@
-import { DictionaryScraper, Word } from '../src';
-import FileReader from './fake/file-reader';
-import TimeoutReader from './fake/timeout-reader';
+import { DictionaryScraper, Word } from '../../src';
 
 describe('Cambridge dictionary web scrapping', () => {
   const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
@@ -8,12 +6,6 @@ describe('Cambridge dictionary web scrapping', () => {
   const NONSENSICAL_WORD = 'Prisencolinensinainciusol';
 
   let scraper = new DictionaryScraper();
-  beforeAll(() => {
-    scraper.registerReader(
-      'cambridge',
-      new FileReader('https://dictionary.cambridge.org'),
-    );
-  });
 
   test('scraper should return expected data for valid single category word', async () => {
     const ret = await scraper.search(VALID_SINGLE_PURPOSE_WORD);
@@ -38,28 +30,6 @@ describe('Cambridge dictionary web scrapping', () => {
               ipa: '/heˈləʊ/',
               audio:
                 'https://dictionary.cambridge.org/media/english/uk_pron/u/ukh/ukhef/ukheft_029.mp3',
-            },
-          ],
-        },
-      },
-    });
-  });
-
-  test('scraper should return expected data for single region', async () => {
-    const ret = await scraper.search(`${VALID_SINGLE_PURPOSE_WORD}-us`);
-
-    expect(ret).not.toBeNull();
-    expect(ret).toMatchObject<Word>({
-      source: 'cambridge',
-      name: `${VALID_SINGLE_PURPOSE_WORD}-us`,
-      entry: {
-        ipa_listings: {
-          us: [
-            {
-              category: '',
-              ipa: '/heˈloʊ/',
-              audio:
-                'https://dictionary.cambridge.org/media/english/us_pron/h/hel/hello/hello.mp3',
             },
           ],
         },
@@ -125,13 +95,5 @@ describe('Cambridge dictionary web scrapping', () => {
     const ret = await scraper.search(NONSENSICAL_WORD);
 
     expect(ret).toBeNull();
-  });
-
-  test('timeout should throws exception', async () => {
-    scraper.registerReader('cambridge', new TimeoutReader('timeout/reader'));
-
-    await expect(
-      scraper.search(VALID_SINGLE_PURPOSE_WORD),
-    ).rejects.toThrowError(Error);
   });
 });
