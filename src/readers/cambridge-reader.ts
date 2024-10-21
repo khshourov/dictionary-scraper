@@ -1,17 +1,21 @@
 import axios from 'axios';
 
-import { Reader } from '../types';
+import { Reader, ReadingPurpose } from '../types';
 
 export default class HttpReader implements Reader {
-  private baseUrl: string;
+  public baseUri: string;
 
   constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
+    this.baseUri = baseUrl;
   }
 
-  async read(word: string): Promise<string> {
+  async read(
+    word: string,
+    purpose: ReadingPurpose = 'pronunciation',
+  ): Promise<string> {
+    const section = purpose === 'meaning' ? 'dictionary' : 'pronunciation';
     const response = await axios.get(
-      `${this.baseUrl}/pronunciation/english/${word}`,
+      `${this.baseUri}/${section}/english/${word}`,
     );
     return response.data;
   }

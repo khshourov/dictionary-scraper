@@ -1,3 +1,5 @@
+export type ReadingPurpose = 'pronunciation' | 'meaning' | 'both';
 export default interface Reader {
-  read: (word: string) => Promise<string>;
+  baseUri: string;
+  read: (word: string, purpose: ReadingPurpose) => Promise<string>;
 }

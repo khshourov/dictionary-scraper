@@ -1,4 +1,5 @@
 export type { default as Reader } from './reader';
+export * from './reader';
 export type { default as ReaderOptions } from './reader-options';
 export * from './source';
 export type { default as Source } from './source';

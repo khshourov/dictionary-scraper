@@ -6,12 +6,29 @@ export type IPAInfo = {
   audio: string;
 };
 
+export type CategoryMeaningEntry = {
+  meaning: string;
+  example: string[];
+};
+
+export type WordMeaning = {
+  category: string;
+  entries: CategoryMeaningEntry[];
+};
+
+export type IPAListings = {
+  [key in string]: IPAInfo[];
+};
+
 type Word = {
   source: Source;
   name: string;
-  ipa_listings?: {
-    [key in string]: IPAInfo[];
-  };
+  entry?:
+    | {
+        ipa_listings?: IPAListings | undefined;
+        meanings?: WordMeaning[];
+      }
+    | undefined;
 };
 
 export default Word;

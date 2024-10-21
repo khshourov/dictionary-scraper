@@ -1,5 +1,6 @@
 import { JSDOM } from 'jsdom';
-import { Scraper, Word } from '../types';
+import { Reader, Scraper, Word } from '../types';
+import { IPAListings } from '../types/word';
 
 type RegionWiseIPAInfo = {
   region: string;
@@ -8,14 +9,31 @@ type RegionWiseIPAInfo = {
 };
 
 export default class CambridgeScraper implements Scraper {
-  private baseUrl: string;
+  private reader: Reader;
 
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
+  constructor(reader: Reader) {
+    this.reader = reader;
   }
 
-  scrape(data: string): Word['ipa_listings'] {
-    const ipaListings: Word['ipa_listings'] = {};
+  setReader(reader: Reader): void {
+    this.reader = reader;
+  }
+
+  async scrape(word: string): Promise<Word['entry']> {
+    if (!this.reader) {
+      throw new Error('Please provide a Reader instance in constructor');
+    }
+
+    const entry: Word['entry'] = {};
+    const data = await this.reader.read(word, 'pronunciation');
+    entry.ipa_listings = this.extractIPAListings(data);
+    if (!entry.ipa_listings) return undefined;
+
+    return entry;
+  }
+
+  private extractIPAListings(data: string): IPAListings | undefined {
+    const ipaListings: IPAListings = {};
 
     const dom = new JSDOM(data);
     const pronunciationBlocks =
@@ -79,7 +97,7 @@ export default class CambridgeScraper implements Scraper {
         ipaInfo.push({
           region: region.toLowerCase(),
           ipa: ipa,
-          audioLink: `${this.baseUrl}${audioLink}`,
+          audioLink: `${this.reader.baseUri}${audioLink}`,
         });
       }
     }

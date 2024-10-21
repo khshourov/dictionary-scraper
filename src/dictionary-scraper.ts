@@ -5,21 +5,16 @@ import { Source, Word, Reader, Scraper } from './types';
 export default class DictionaryScraper {
   private readonly channels: Source[] = ['cambridge'];
   private readonly scrapers: Map<Source, Scraper> = new Map();
-  private readers: Map<Source, Reader> = new Map();
 
   constructor() {
-    this.scrapers.set(
-      'cambridge',
-      new CambridgeScraper('https://dictionary.cambridge.org'),
+    const cambridgeReader = new CambridgeReader(
+      'https://dictionary.cambridge.org',
     );
-    this.readers.set(
-      'cambridge',
-      new CambridgeReader('https://dictionary.cambridge.org'),
-    );
+    this.scrapers.set('cambridge', new CambridgeScraper(cambridgeReader));
   }
 
   registerReader(source: Source, reader: Reader): void {
-    this.readers.set(source, reader);
+    this.scrapers.get(source)?.setReader(reader);
   }
 
   async search(word: string): Promise<Word | null> {
@@ -29,23 +24,15 @@ export default class DictionaryScraper {
         source: channel as Source,
         name: word,
       };
-      if (this.readers.has(channel as Source)) {
+      if (this.scrapers.has(channel as Source)) {
         try {
-          const data = await this.readers.get(channel as Source)?.read(word);
-          if (data) {
-            const ipa_listings = this.scrapers
-              .get(channel as Source)
-              ?.scrape(data);
-            if (ipa_listings) {
-              ret.ipa_listings = ipa_listings;
-            }
-          }
+          ret.entry = await this.scrapers.get(channel as Source)?.scrape(word);
         } catch (err) {
           error = err;
         }
       }
 
-      if (ret.ipa_listings) return ret;
+      if (ret.entry) return ret;
     }
 
     if (error) {
