@@ -1,7 +1,10 @@
 import { DictionaryScraper, FileReader, Word } from '../src';
 
 describe('Cambridge dictionary web scrapping', () => {
-  const VALID_MULTI_PURPOSE_WORD = 'present'; // By multi purpose, we mean word can be noun, verb, adjective etc
+  const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
+  const VALID_SINGLE_PURPOSE_WORD = 'hello';
+  const NONSENSICLE_WORD = 'Prisencolinensinainciusol';
+
   let scraper = new DictionaryScraper();
   beforeAll(() => {
     scraper.registerReader(
@@ -10,13 +13,61 @@ describe('Cambridge dictionary web scrapping', () => {
     );
   });
 
-  test('scraper should return expected data for valid multi purpose word', async () => {
-    const ret = await scraper.search(VALID_MULTI_PURPOSE_WORD);
+  test('scraper should return expected data for valid single category word', async () => {
+    const ret = await scraper.search(VALID_SINGLE_PURPOSE_WORD);
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
       source: 'cambridge',
-      name: VALID_MULTI_PURPOSE_WORD,
+      name: VALID_SINGLE_PURPOSE_WORD,
+      ipa_listings: {
+        us: [
+          {
+            category: '',
+            ipa: '/heˈloʊ/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/us_pron/h/hel/hello/hello.mp3',
+          },
+        ],
+        uk: [
+          {
+            category: '',
+            ipa: '/heˈləʊ/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/uk_pron/u/ukh/ukhef/ukheft_029.mp3',
+          },
+        ],
+      },
+    });
+  });
+  
+  test('scraper should return expected data for single region', async () => {
+    const ret = await scraper.search(`${VALID_SINGLE_PURPOSE_WORD}-us`);
+
+    expect(ret).not.toBeNull();
+    expect(ret).toMatchObject<Word>({
+      source: 'cambridge',
+      name: `${VALID_SINGLE_PURPOSE_WORD}-us`,
+      ipa_listings: {
+        us: [
+          {
+            category: '',
+            ipa: '/heˈloʊ/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/us_pron/h/hel/hello/hello.mp3',
+          },
+        ],
+      },
+    });
+  });
+
+  test('scraper should return expected data for valid multi category word', async () => {
+    const ret = await scraper.search(VALID_MULTI_CATEGORY_WORD);
+
+    expect(ret).not.toBeNull();
+    expect(ret).toMatchObject<Word>({
+      source: 'cambridge',
+      name: VALID_MULTI_CATEGORY_WORD,
       ipa_listings: {
         us: [
           {
@@ -60,5 +111,11 @@ describe('Cambridge dictionary web scrapping', () => {
         ],
       },
     });
+  });
+
+  test('scraper should return expected data for valid single category word', async () => {
+    const ret = await scraper.search(NONSENSICLE_WORD);
+
+    expect(ret).toBeNull();
   });
 });
