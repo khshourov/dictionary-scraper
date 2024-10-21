@@ -23,6 +23,7 @@ export default class DictionaryScraper {
   }
 
   async search(word: string): Promise<Word | null> {
+    let error;
     for (const channel of this.channels) {
       const ret: Word = {
         source: channel as Source,
@@ -39,10 +40,16 @@ export default class DictionaryScraper {
               ret.ipa_listings = ipa_listings;
             }
           }
-        } catch (err) {}
+        } catch (err) {
+          error = err;
+        }
       }
 
       if (ret.ipa_listings) return ret;
+    }
+
+    if (error) {
+      throw error;
     }
 
     return null;

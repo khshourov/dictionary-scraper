@@ -1,5 +1,6 @@
 import { DictionaryScraper, Word } from '../src';
 import FileReader from './fake/file-reader';
+import TimeoutReader from './fake/timeout-reader';
 
 describe('Cambridge dictionary web scrapping', () => {
   const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
@@ -41,7 +42,7 @@ describe('Cambridge dictionary web scrapping', () => {
       },
     });
   });
-  
+
   test('scraper should return expected data for single region', async () => {
     const ret = await scraper.search(`${VALID_SINGLE_PURPOSE_WORD}-us`);
 
@@ -118,5 +119,13 @@ describe('Cambridge dictionary web scrapping', () => {
     const ret = await scraper.search(NONSENSICLE_WORD);
 
     expect(ret).toBeNull();
+  });
+
+  test('timeout should throws exception', async () => {
+    scraper.registerReader('cambridge', new TimeoutReader());
+
+    await expect(
+      scraper.search(VALID_SINGLE_PURPOSE_WORD),
+    ).rejects.toThrowError(Error);
   });
 });
