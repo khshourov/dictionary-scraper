@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import { Reader } from '../types';
+import { Reader } from '../../src/types';
 
 export default class FileReader implements Reader {
   private baseUri: string;

@@ -1,4 +1,5 @@
-import { DictionaryScraper, FileReader, Word } from '../src';
+import { DictionaryScraper, Word } from '../src';
+import FileReader from './fake/file-reader';
 
 describe('Cambridge dictionary web scrapping', () => {
   const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
