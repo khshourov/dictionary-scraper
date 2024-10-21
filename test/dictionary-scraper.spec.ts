@@ -26,16 +26,16 @@ describe('Cambridge dictionary web scrapping', () => {
               'https://dictionary.cambridge.org/media/english/us_pron/p/pre/prese/present_01_00.mp3',
           },
           {
-            category: 'verb',
-            ipa: '/prɪˈzent/',
-            audio:
-              'https://dictionary.cambridge.org/media/english/us_pron/p/pre/prese/present_02_00.mp3',
-          },
-          {
             category: 'adjective',
             ipa: '/ˈprez.ənt/',
             audio:
               'https://dictionary.cambridge.org/media/english/us_pron/p/pre/prese/present_01_00.mp3',
+          },
+          {
+            category: 'verb',
+            ipa: '/prɪˈzent/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/us_pron/p/pre/prese/present_02_00.mp3',
           },
         ],
         uk: [
@@ -43,19 +43,19 @@ describe('Cambridge dictionary web scrapping', () => {
             category: 'noun',
             ipa: '/ˈprez.ənt/',
             audio:
-              'https://dictionary.cambridge.org/media/english/us_pron/p/pre/prese/present_01_00.mp3',
-          },
-          {
-            category: 'verb',
-            ipa: '/prɪˈzent/',
-            audio:
-              'https://dictionary.cambridge.org/media/english/us_pron/p/pre/prese/present_02_00.mp3',
+              'https://dictionary.cambridge.org/media/english/uk_pron/u/ukp/ukpre/ukprepo020.mp3',
           },
           {
             category: 'adjective',
             ipa: '/ˈprez.ənt/',
             audio:
-              'https://dictionary.cambridge.org/media/english/us_pron/p/pre/prese/present_01_00.mp3',
+              'https://dictionary.cambridge.org/media/english/uk_pron/u/ukp/ukpre/ukprepo020.mp3',
+          },
+          {
+            category: 'verb',
+            ipa: '/prɪˈzent/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/uk_pron/u/ukp/ukpre/ukprepo021.mp3',
           },
         ],
       },

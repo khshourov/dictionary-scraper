@@ -10,7 +10,9 @@ export default class HttpReader implements Reader {
   }
 
   async read(word: string): Promise<string> {
-    const response = await axios.get(`${this.baseUrl}/${word}`);
+    const response = await axios.get(
+      `${this.baseUrl}/pronunciation/english/${word}`,
+    );
     return response.data;
   }
 }

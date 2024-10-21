@@ -9,12 +9,9 @@ export type IPAInfo = {
 type Word = {
   source: Source;
   name: string;
-  ipa_listings?:
-    | {
-        us?: IPAInfo[];
-        uk?: IPAInfo[];
-      }
-    | undefined;
+  ipa_listings?: {
+    [key in string]: IPAInfo[];
+  };
 };
 
 export default Word;

@@ -8,12 +8,13 @@ export default class DictionaryScraper {
   private readers: Map<Source, Reader> = new Map();
 
   constructor() {
-    this.scrapers.set('cambridge', new CambridgeScraper());
+    this.scrapers.set(
+      'cambridge',
+      new CambridgeScraper('https://dictionary.cambridge.org'),
+    );
     this.readers.set(
       'cambridge',
-      new CambridgeReader(
-        'https://dictionary.cambridge.org/pronunciation/english',
-      ),
+      new CambridgeReader('https://dictionary.cambridge.org'),
     );
   }
 
@@ -31,9 +32,12 @@ export default class DictionaryScraper {
         try {
           const data = await this.readers.get(channel as Source)?.read(word);
           if (data) {
-            ret.ipa_listings = this.scrapers
+            const ipa_listings = this.scrapers
               .get(channel as Source)
               ?.scrape(data);
+            if (ipa_listings) {
+              ret.ipa_listings = ipa_listings;
+            }
           }
         } catch (err) {}
       }
