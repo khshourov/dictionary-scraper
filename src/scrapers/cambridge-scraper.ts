@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom';
 import { Reader, Scraper, Word } from '../types';
-import { IPAListings } from '../types/word';
+import { IPAListings, WordMeaning, CategoryMeaningEntry } from '../types/word';
 
 type RegionWiseIPAInfo = {
   region: string;
@@ -30,6 +30,12 @@ export default class CambridgeScraper implements Scraper {
 
     entry.ipa_listings = this.extractIPAListings(data);
     if (!entry.ipa_listings) return undefined;
+
+    entry.meanings = [];
+    const dictionaryData = await this.reader.read(word, 'meaning');
+    if (dictionaryData) {
+      entry.meanings = this.extractMeanings(dictionaryData);
+    }
 
     return entry;
   }
@@ -65,6 +71,21 @@ export default class CambridgeScraper implements Scraper {
     }
 
     return ipaListings;
+  }
+
+  private extractMeanings(data: string): WordMeaning[] {
+    const dom = new JSDOM(data);
+    const document = dom.window.document;
+
+    // Selecting UK dictionary section; currently we're ignoring American and business English
+    const ukDictionary = document.querySelector('.pr.dictionary .di-body');
+    if (!ukDictionary) {
+      throw new Error('No UK dictionary section found');
+    }
+
+    return Array.from(ukDictionary.querySelectorAll('.pr .entry-body__el')).map(
+      (categoryBlock) => this.extractCategory(categoryBlock),
+    );
   }
 
   private extractPartsOfSpeeches(pronunciationBLock: Element): string[] {
@@ -105,5 +126,25 @@ export default class CambridgeScraper implements Scraper {
     }
 
     return ipaInfo;
+  }
+
+  private extractCategory(categoryBlock: Element): WordMeaning {
+    return {
+      categories:
+        categoryBlock.querySelector('.pos-header .posgram')?.textContent ?? '',
+      entries: Array.from(
+        categoryBlock.querySelectorAll('.pos-body .pr.dsense .def-block'),
+      ).map((meaningBlock) => this.extractMeaning(meaningBlock)),
+    };
+  }
+
+  private extractMeaning(meaningBlock: Element): CategoryMeaningEntry {
+    return {
+      meaning:
+        meaningBlock.querySelector('.ddef_h .def')?.textContent?.trim() ?? '',
+      examples: Array.from(
+        meaningBlock.querySelectorAll('.def-body .examp'),
+      ).map((exampleBlock) => exampleBlock?.textContent?.trim() ?? ''),
+    };
   }
 }

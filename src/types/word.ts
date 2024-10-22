@@ -8,7 +8,7 @@ export type IPAInfo = {
 
 export type CategoryMeaningEntry = {
   meaning: string;
-  example: string[];
+  examples: string[];
 };
 
 export type WordMeaning = {
