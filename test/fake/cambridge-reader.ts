@@ -2,7 +2,7 @@ import * as fs from 'fs';
 
 import { Reader, ReadingPurpose } from '../../src/types';
 
-export default class FileReader implements Reader {
+export default class CambridgeReader implements Reader {
   public baseUri: string;
 
   constructor(baseUri: string) {
@@ -10,11 +10,12 @@ export default class FileReader implements Reader {
   }
 
   read(word: string, purpose: ReadingPurpose): Promise<string> {
+    const section = purpose === 'pronunciation' ? 'pronunciation' : 'meaning';
     return new Promise((resolve, reject) => {
       try {
         resolve(
           fs.readFileSync(
-            `test/resources/cambridge/${purpose}/${word}.html`,
+            `test/resources/cambridge/${section}/${word}.html`,
             'utf8',
           ),
         );

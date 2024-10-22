@@ -1,5 +1,5 @@
 import { DictionaryScraper, Word } from '../../src';
-import FileReader from '../fake/file-reader';
+import CambridgeReader from '../fake/cambridge-reader';
 import TimeoutReader from '../fake/timeout-reader';
 
 describe('Cambridge dictionary web scrapping', () => {
@@ -11,7 +11,12 @@ describe('Cambridge dictionary web scrapping', () => {
   beforeAll(() => {
     scraper.registerReader(
       'cambridge',
-      new FileReader('https://dictionary.cambridge.org'),
+      /*
+        We have to set real base-url as CambridgeScraper use thatbase-url
+        base-url to generate full audio-link. Without setting proper base-url
+        will result in failed test.
+      */
+      new CambridgeReader('https://dictionary.cambridge.org'),
     );
   });
 
