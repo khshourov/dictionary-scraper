@@ -5,7 +5,7 @@ import TimeoutReader from '../fake/timeout-reader';
 describe('Cambridge dictionary web scrapping', () => {
   const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
   const VALID_SINGLE_PURPOSE_WORD = 'hello';
-  const NONSENSICAL_WORD = 'Prisencolinensinainciusol';
+  const NONSENSICAL_WORD = 'prisencolinensinainciusol';
 
   let scraper = new DictionaryScraper();
   beforeAll(() => {
