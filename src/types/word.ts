@@ -12,7 +12,7 @@ export type CategoryMeaningEntry = {
 };
 
 export type WordMeaning = {
-  category: string;
+  categories: string;
   entries: CategoryMeaningEntry[];
 };
 
