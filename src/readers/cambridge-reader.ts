@@ -19,6 +19,7 @@ export default class HttpReader implements Reader {
       const response = await axios.get(
         `${this.baseUri}/${section}/english/${word}`,
         {
+          timeout: 60000, // 60 seconds
           headers: {
             'User-Agent':
               'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:131.0) Gecko/20100101 Firefox/131.0',
