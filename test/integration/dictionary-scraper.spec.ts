@@ -5,7 +5,7 @@ describe('Cambridge dictionary web scrapping', () => {
   const VALID_SINGLE_PURPOSE_WORD = 'hello';
   const NONSENSICAL_WORD = 'prisencolinensinainciusol';
 
-  let scraper = new DictionaryScraper();
+  const scraper = new DictionaryScraper();
 
   test('scraper should return expected data for valid single category word', async () => {
     const ret = await scraper.search(VALID_SINGLE_PURPOSE_WORD);

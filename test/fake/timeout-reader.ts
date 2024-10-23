@@ -7,6 +7,7 @@ export default class TimeoutReader implements Reader {
     this.baseUri = baseUri;
   }
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   read(_word: string): Promise<string> {
     return new Promise((_resolve, reject) => {
       reject(new Error('Read timeout'));

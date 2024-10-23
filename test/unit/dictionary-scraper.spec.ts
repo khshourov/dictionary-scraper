@@ -7,7 +7,7 @@ describe('Cambridge dictionary web scrapping', () => {
   const VALID_SINGLE_PURPOSE_WORD = 'hello';
   const NONSENSICAL_WORD = 'prisencolinensinainciusol';
 
-  let scraper = new DictionaryScraper();
+  const scraper = new DictionaryScraper();
   beforeAll(() => {
     scraper.registerReader(
       Source.CAMBRIDGE,
@@ -323,7 +323,7 @@ describe('Cambridge dictionary web scrapping', () => {
     [{ key: 'value' }],
     [() => {}],
   ])('given %s, search should throw error', async (invalidWord) => {
-    // @ts-ignore:next-line
+    // @ts-expect-error: For JS only
     await expect(scraper.search(invalidWord)).rejects.toThrowError(
       'A single non-empty non-spaced string is required',
     );
@@ -343,7 +343,7 @@ describe('Cambridge dictionary web scrapping', () => {
   ])('given %s, registerReader should throw error', async (invalidSource) => {
     await expect(async () =>
       scraper.registerReader(
-        //@ts-ignore:next-line
+        // @ts-expect-error: For JS only
         invalidSource,
         new CambridgeReader('https://dictionary.cambridge.org'),
       ),
@@ -354,7 +354,7 @@ describe('Cambridge dictionary web scrapping', () => {
     const reader = () => {};
 
     await expect(async () =>
-      // @ts-ignore: next-line
+      // @ts-expect-error: For JS only
       scraper.registerReader(Source.CAMBRIDGE, reader),
     ).rejects.toThrowError(Error);
   });

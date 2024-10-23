@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "ES2022",
@@ -26,10 +27,7 @@
 
     "forceConsistentCasingInFileNames": true,
 
-    "module": "NodeNext",
-    "outDir": "dist",
-    "sourceMap": true,
-    "declaration": true
+    "module": "Preserve",
   },
   "include": [
     "src/**/*.ts"
