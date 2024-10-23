@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { AxiosError } from 'axios';
 
 import { Reader, ReadingPurpose } from '../types';
-import { AxiosError } from 'axios';
 
 export default class HttpReader implements Reader {
   public baseUri: string;
@@ -20,6 +20,9 @@ export default class HttpReader implements Reader {
         `${this.baseUri}/${section}/english/${word}`,
         {
           timeout: 60000, // 60 seconds
+          /*
+           * All of headers are collected from a firefox request otherwise dictionary.cambridge.org returns error.
+           */
           headers: {
             'User-Agent':
               'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:131.0) Gecko/20100101 Firefox/131.0',
@@ -40,6 +43,11 @@ export default class HttpReader implements Reader {
 
       return response.data;
     } catch (err) {
+      /*
+       * When cambridge can't find a word, it returns http status code 404. We returns null to indicate
+       * that the searched word has not found. In all other cases, we re-throw the error to indicate something
+       * that goes wrong with the request like connect/read timeout etc.
+       */
       if (err instanceof AxiosError && err.status === 404) {
         return null;
       }

@@ -1,0 +1,62 @@
+{
+  "source": "cambridge",
+  "name": "hello",
+  "entry": {
+    "ipa_listings": {
+      "uk": [
+        {
+          "category": "",
+          "ipa": "/heˈləʊ/",
+          "audio": "https://dictionary.cambridge.org/media/english/uk_pron/u/ukh/ukhef/ukheft_029.mp3"
+        }
+      ],
+      "us": [
+        {
+          "category": "",
+          "ipa": "/heˈloʊ/",
+          "audio": "https://dictionary.cambridge.org/media/english/us_pron/h/hel/hello/hello.mp3"
+        }
+      ]
+    },
+    "meanings": [
+      {
+        "categories": "exclamation, noun",
+        "entries": [
+          {
+            "meaning": "used when meeting or greeting someone:",
+            "examples": [
+              "Hello, Paul. I haven't seen you for ages.",
+              "I know her vaguely - we've exchanged hellos a few times.",
+              "say hello I just thought I'd call by and say hello.",
+              "a big hello And a big hello (= welcome) to all the parents who've come to see the show."
+            ]
+          },
+          {
+            "meaning": "something that is said at the beginning of a phone conversation:",
+            "examples": [
+              "\"Hello, I'd like some information about flights to the US, please.\""
+            ]
+          },
+          {
+            "meaning": "something that is said to attract someone's attention:",
+            "examples": [
+              "The front door was open so she walked inside and called out, \"Hello! Is there anybody in?\""
+            ]
+          },
+          {
+            "meaning": "said to someone who has just said or done something stupid, especially something that shows they are not noticing what is happening:",
+            "examples": [
+              "She asked me if I'd just arrived and I was like \"Hello, I've been here for an hour.\""
+            ]
+          },
+          {
+            "meaning": "an expression of surprise:",
+            "examples": [
+              "Hello, this is very strange - I know that man."
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
