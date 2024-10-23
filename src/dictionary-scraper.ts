@@ -67,6 +67,17 @@ export default class DictionaryScraper {
    * @returns {void}
    */
   registerReader(source: Source, reader: Reader): void {
+    if (typeof source !== 'string' || !this.channels.includes(source)) {
+      throw new Error(`source must be one of the following: ${this.channels}`);
+    }
+    if (
+      !reader ||
+      typeof reader.read !== 'function' ||
+      typeof reader.baseUri !== 'string'
+    ) {
+      throw new Error('reader must implement Reader interface');
+    }
+
     this.scrapers.get(source)?.setReader(reader);
   }
 
@@ -81,6 +92,15 @@ export default class DictionaryScraper {
    * @returns {Promise<Word | null>}
    */
   async search(word: string): Promise<Word | null> {
+    if (
+      !word ||
+      typeof word !== 'string' ||
+      word.trim().length === 0 ||
+      word.trim().split(' ').length > 1
+    ) {
+      throw new Error('A single non-empty non-spaced string is required');
+    }
+
     let error;
     for (const channel of this.channels) {
       const ret: Word = {

@@ -310,4 +310,52 @@ describe('Cambridge dictionary web scrapping', () => {
       scraper.search(VALID_SINGLE_PURPOSE_WORD),
     ).rejects.toThrowError(Error);
   });
+
+  test.each([
+    [undefined],
+    [null],
+    [''],
+    ['  '],
+    ['multi word'],
+    [[]],
+    [{}],
+    [['some', 'words']],
+    [{ key: 'value' }],
+    [() => {}],
+  ])('given %s, search should throw error', async (invalidWord) => {
+    // @ts-ignore:next-line
+    await expect(scraper.search(invalidWord)).rejects.toThrowError(
+      'A single non-empty non-spaced string is required',
+    );
+  });
+
+  test.each([
+    [undefined],
+    [null],
+    [''],
+    ['  '],
+    ['multi word'],
+    [[]],
+    [{}],
+    [['some', 'words']],
+    [{ key: 'value' }],
+    [() => {}],
+  ])('given %s, registerReader should throw error', async (invalidSource) => {
+    await expect(async () =>
+      scraper.registerReader(
+        //@ts-ignore:next-line
+        invalidSource,
+        new CambridgeReader('https://dictionary.cambridge.org'),
+      ),
+    ).rejects.toThrowError(Error);
+  });
+
+  test('registerReader should throw error if reader does not implement Reader interface', async () => {
+    const reader = () => {};
+
+    await expect(async () =>
+      // @ts-ignore: next-line
+      scraper.registerReader(Source.CAMBRIDGE, reader),
+    ).rejects.toThrowError(Error);
+  });
 });
