@@ -1,4 +1,4 @@
-import { DictionaryScraper, Word } from '../../src';
+import { DictionaryScraper, Source, Word } from '../../src';
 import CambridgeReader from '../fake/cambridge-reader';
 import TimeoutReader from '../fake/timeout-reader';
 
@@ -10,7 +10,7 @@ describe('Cambridge dictionary web scrapping', () => {
   let scraper = new DictionaryScraper();
   beforeAll(() => {
     scraper.registerReader(
-      'cambridge',
+      Source.CAMBRIDGE,
       /*
         We have to set real base-url as CambridgeScraper use that base-url
         base-url to generate full audio-link. Without setting proper base-url
@@ -25,7 +25,7 @@ describe('Cambridge dictionary web scrapping', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
-      source: 'cambridge',
+      source: Source.CAMBRIDGE,
       name: VALID_SINGLE_PURPOSE_WORD,
       entry: {
         ipa_listings: {
@@ -96,7 +96,7 @@ describe('Cambridge dictionary web scrapping', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
-      source: 'cambridge',
+      source: Source.CAMBRIDGE,
       name: `${VALID_SINGLE_PURPOSE_WORD}-us`,
       entry: {
         ipa_listings: {
@@ -119,7 +119,7 @@ describe('Cambridge dictionary web scrapping', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
-      source: 'cambridge',
+      source: Source.CAMBRIDGE,
       name: VALID_MULTI_CATEGORY_WORD,
       entry: {
         ipa_listings: {
@@ -301,7 +301,10 @@ describe('Cambridge dictionary web scrapping', () => {
   });
 
   test('timeout should throws exception', async () => {
-    scraper.registerReader('cambridge', new TimeoutReader('timeout/reader'));
+    scraper.registerReader(
+      Source.CAMBRIDGE,
+      new TimeoutReader('timeout/reader'),
+    );
 
     await expect(
       scraper.search(VALID_SINGLE_PURPOSE_WORD),

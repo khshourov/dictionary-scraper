@@ -1,5 +1,5 @@
-export type CAMBRIDGE = 'cambridge';
-
-type Source = CAMBRIDGE;
+const enum Source {
+  CAMBRIDGE = 'CAMBRIDGE',
+}
 
 export default Source;

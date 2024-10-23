@@ -38,7 +38,7 @@ import { Source, Word, Reader, Scraper } from './types';
  * Full response sample can be found in docs/example-respopnse-hello.json and docs/example-response-present.json.
  */
 export default class DictionaryScraper {
-  private readonly channels: Source[] = ['cambridge'];
+  private readonly channels: Source[] = [Source.CAMBRIDGE];
   private readonly scrapers: Map<Source, Scraper> = new Map();
 
   /**
@@ -49,7 +49,7 @@ export default class DictionaryScraper {
     const cambridgeReader = new CambridgeReader(
       'https://dictionary.cambridge.org',
     );
-    this.scrapers.set('cambridge', new CambridgeScraper(cambridgeReader));
+    this.scrapers.set(Source.CAMBRIDGE, new CambridgeScraper(cambridgeReader));
   }
 
   /**
