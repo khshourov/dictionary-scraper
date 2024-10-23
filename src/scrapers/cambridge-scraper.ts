@@ -1,12 +1,7 @@
 import { JSDOM } from 'jsdom';
+
 import { Reader, Scraper, Word } from '../types';
 import { IPAListings, WordMeaning, CategoryMeaningEntry } from '../types/word';
-
-type RegionWiseIPAInfo = {
-  region: string;
-  ipa: string;
-  audioLink: string;
-};
 
 export default class CambridgeScraper implements Scraper {
   private reader: Reader;
@@ -44,27 +39,27 @@ export default class CambridgeScraper implements Scraper {
     const ipaListings: IPAListings = {};
 
     const dom = new JSDOM(data);
-    const pronunciationBlocks =
-      dom.window.document.querySelectorAll('.pron-block');
-    for (const pronunciationBlock of pronunciationBlocks) {
-      const partsOfSpeeches = this.extractPartsOfSpeeches(pronunciationBlock);
+    Array.from(dom.window.document.querySelectorAll('.pron-block')).forEach(
+      (pronunciationBlock) => {
+        const partsOfSpeeches = this.extractPartsOfSpeeches(pronunciationBlock);
 
-      const regionWiseIPAInfo =
-        this.extractRegionWiseIPAInfo(pronunciationBlock);
-      for (const ipaInfo of regionWiseIPAInfo) {
-        for (const partsOfSpeech of partsOfSpeeches) {
-          if (!ipaListings[ipaInfo.region]) {
-            ipaListings[ipaInfo.region] = [];
+        const regionWiseIPAInfo =
+          this.extractRegionWiseIPAInfo(pronunciationBlock);
+        for (const ipaInfo of regionWiseIPAInfo) {
+          for (const partsOfSpeech of partsOfSpeeches) {
+            if (!ipaListings[ipaInfo.region]) {
+              ipaListings[ipaInfo.region] = [];
+            }
+
+            ipaListings[ipaInfo.region]?.push({
+              category: partsOfSpeech,
+              ipa: ipaInfo.ipa,
+              audio: ipaInfo.audioLink,
+            });
           }
-
-          ipaListings[ipaInfo.region]?.push({
-            category: partsOfSpeech,
-            ipa: ipaInfo.ipa,
-            audio: ipaInfo.audioLink,
-          });
         }
-      }
-    }
+      },
+    );
 
     if (Object.keys(ipaListings).length === 0) {
       return undefined;
@@ -89,13 +84,9 @@ export default class CambridgeScraper implements Scraper {
   }
 
   private extractPartsOfSpeeches(pronunciationBLock: Element): string[] {
-    const partsOfSpeeches = [];
-    for (const partsOfSpeechBLock of pronunciationBLock.querySelectorAll(
-      '.posgram > .ti',
-    )) {
-      partsOfSpeeches.push(partsOfSpeechBLock.textContent ?? '');
-    }
-
+    const partsOfSpeeches = Array.from(
+      pronunciationBLock.querySelectorAll('.posgram > .ti'),
+    ).map((partsOfSpeechBlock) => partsOfSpeechBlock.textContent ?? '');
     if (partsOfSpeeches.length === 0) {
       return [''];
     }
@@ -104,28 +95,28 @@ export default class CambridgeScraper implements Scraper {
   }
 
   private extractRegionWiseIPAInfo(pronunciationBlock: Element) {
-    const ipaInfo: RegionWiseIPAInfo[] = [];
-    const regionBlocks = pronunciationBlock.querySelectorAll(
-      '.region-block .pron-info',
-    );
-    for (const regionBlock of regionBlocks) {
-      const region = regionBlock.getAttribute('data-pron-region');
-      const ipa = regionBlock.querySelector(
-        '.pron[data-title="Written pronunciation"]',
-      )?.textContent;
-      const audioLink = regionBlock
-        .querySelector('.soundfile audio source[type="audio/mpeg"]')
-        ?.getAttribute('src');
-      if (region && ipa && audioLink) {
-        ipaInfo.push({
-          region: region.toLowerCase(),
-          ipa: ipa,
-          audioLink: `${this.reader.baseUri}${audioLink}`,
-        });
-      }
-    }
+    return Array.from(
+      pronunciationBlock.querySelectorAll('.region-block .pron-info'),
+    )
+      .map((regionBlock) => {
+        const region = regionBlock.getAttribute('data-pron-region');
+        const ipa = regionBlock.querySelector(
+          '.pron[data-title="Written pronunciation"]',
+        )?.textContent;
+        const audioLink = regionBlock
+          .querySelector('.soundfile audio source[type="audio/mpeg"]')
+          ?.getAttribute('src');
+        if (region && ipa && audioLink) {
+          return {
+            region: region.toLowerCase(),
+            ipa: ipa,
+            audioLink: `${this.reader.baseUri}${audioLink}`,
+          };
+        }
 
-    return ipaInfo;
+        return null;
+      })
+      .filter((each) => each !== null);
   }
 
   private extractCategory(categoryBlock: Element): WordMeaning {
