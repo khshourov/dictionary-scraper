@@ -14,7 +14,7 @@ import { DictionaryEntry } from './types/word';
      source: 'cambridge',
      name: 'hello',
      entry: {
-       ipa_listings: {
+       ipaListings: {
          us: [{ category: '', ipa: '/heˈloʊ/', audio: 'https://dictionary.cambridge.org/media/english/us_pron/h/hel/hello/hello.mp3',}, ],
          uk: [{ category: '', ipa: '/heˈləʊ/', audio: 'https://dictionary.cambridge.org/media/english/uk_pron/u/ukh/ukhef/ukheft_029.mp3',}, ],
        },
@@ -112,7 +112,7 @@ export default class DictionaryScraper {
       typeof entry === 'object' &&
       !Array.isArray(entry) &&
       Object.getPrototypeOf(entry) === Object.prototype &&
-      ('ipa_listings' in entry || 'meanings' in entry)
+      ('ipaListings' in entry || 'meanings' in entry)
     );
   }
 }

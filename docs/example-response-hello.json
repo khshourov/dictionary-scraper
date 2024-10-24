@@ -2,7 +2,7 @@
   "source": "cambridge",
   "name": "hello",
   "entry": {
-    "ipa_listings": {
+    "ipaListings": {
       "uk": [
         {
           "category": "",

@@ -16,7 +16,7 @@ describe('CambridgeScraper::scrape()', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<DictionaryEntry>({
-      ipa_listings: {
+      ipaListings: {
         us: [
           {
             category: '',
@@ -82,7 +82,7 @@ describe('CambridgeScraper::scrape()', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<DictionaryEntry>({
-      ipa_listings: {
+      ipaListings: {
         us: [
           {
             category: '',
@@ -101,7 +101,7 @@ describe('CambridgeScraper::scrape()', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<DictionaryEntry>({
-      ipa_listings: {
+      ipaListings: {
         us: [
           {
             category: 'noun',

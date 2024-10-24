@@ -15,7 +15,7 @@ const scrapers: { [key in string]: Scraper } = {
   valid: {
     scrape: () =>
       Promise.resolve({
-        ipa_listings: { us: [{ category: 'noun', ipa: '', audio: '' }] },
+        ipaListings: { us: [{ category: 'noun', ipa: '', audio: '' }] },
       }),
   },
 };
@@ -46,7 +46,7 @@ describe('DictionaryScraper::search()', () => {
       source: SourceConst.CAMBRIDGE,
       name: VALID_WORD.toLowerCase(),
       entry: {
-        ipa_listings: {
+        ipaListings: {
           us: [
             {
               category: '',

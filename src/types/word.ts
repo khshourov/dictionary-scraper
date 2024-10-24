@@ -21,7 +21,7 @@ export type IPAListings = {
 };
 
 export type DictionaryEntry = {
-  ipa_listings?: IPAListings | undefined;
+  ipaListings?: IPAListings | undefined;
   meanings?: WordMeaning[];
 };
 

@@ -15,7 +15,7 @@ describe('DictionaryScraper::search()', () => {
       source: SourceConst.CAMBRIDGE,
       name: VALID_SINGLE_PURPOSE_WORD,
       entry: {
-        ipa_listings: {
+        ipaListings: {
           us: [
             {
               category: '',
@@ -86,7 +86,7 @@ describe('DictionaryScraper::search()', () => {
       source: SourceConst.CAMBRIDGE,
       name: VALID_MULTI_CATEGORY_WORD,
       entry: {
-        ipa_listings: {
+        ipaListings: {
           us: [
             {
               category: 'noun',
