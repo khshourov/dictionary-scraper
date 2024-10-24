@@ -16,7 +16,9 @@
     "check-format": "prettier --check 'src/**/*.{js,jsx,ts,tsx}' 'test/**/*.{js,jsx,ts,tsx}'",
     "check-exports": "attw --pack .",
     "rollup": "rollup -c",
-    "ci": "npm run build && npm run check-format && npm run lint && npm run eslint && npm run test"
+    "ci": "npm run build && npm run check-format && npm run lint && npm run eslint && npm run test && npm run rollup",
+    "prepublishOnly": "npm run ci",
+    "local-release": "changeset version && changeset publish"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -41,6 +43,7 @@
   "homepage": "https://github.com/khshourov/dictionary-scraper#readme",
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.16.4",
+    "@changesets/cli": "^2.27.9",
     "@eslint/js": "^9.13.0",
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-json": "^6.1.0",
