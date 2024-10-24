@@ -7,7 +7,7 @@ export default [{
   input: 'dist/index.js',
   output: {
     name: "DictionaryScraper",
-    file: "dist/dictionary-scraper.min.js",
+    file: "dist.browser/dictionary-scraper.min.js",
     format: 'iife',
     sourcemap: true,
   },
