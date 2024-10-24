@@ -1,6 +1,6 @@
 import { cleanWord } from './lib';
 import { CambridgeScraper } from './scrapers';
-import { Source, Word, Scraper } from './types';
+import { Source, Word, Scraper, SourceConst } from './types';
 
 /**
  * Scrape online dictionaries to retrieve the IPA, definitions and examples sentences of a word
@@ -38,7 +38,6 @@ import { Source, Word, Scraper } from './types';
  * Full response sample can be found in docs/example-respopnse-hello.json and docs/example-response-present.json.
  */
 export default class DictionaryScraper {
-  private readonly channels: Source[] = [Source.CAMBRIDGE];
   private readonly scrapers: Map<Source, Scraper> = new Map();
 
   /**
@@ -46,7 +45,7 @@ export default class DictionaryScraper {
    * @constructor
    */
   constructor() {
-    this.scrapers.set(Source.CAMBRIDGE, new CambridgeScraper());
+    this.scrapers.set(SourceConst.CAMBRIDGE, new CambridgeScraper());
   }
 
   /**
@@ -57,8 +56,8 @@ export default class DictionaryScraper {
    * @returns {void}
    */
   registerScraper(source: Source, scraper: Scraper): void {
-    if (typeof source !== 'string' || !this.channels.includes(source)) {
-      throw new Error(`source must be one of the following: ${this.channels}`);
+    if (typeof source !== 'string' || (source = source.trim()).length === 0) {
+      throw new Error('source must be a string');
     }
     if (!scraper || typeof scraper.scrape !== 'function') {
       throw new Error('scraper must implement Scraper interface');
@@ -84,17 +83,15 @@ export default class DictionaryScraper {
     }
 
     let error;
-    for (const channel of this.channels) {
+    for (const [channel, scraper] of this.scrapers) {
       const ret: Word = {
-        source: channel as Source,
+        source: channel,
         name: word,
       };
-      if (this.scrapers.has(channel as Source)) {
-        try {
-          ret.entry = await this.scrapers.get(channel as Source)?.scrape(word);
-        } catch (err) {
-          error = err;
-        }
+      try {
+        ret.entry = await scraper.scrape(word);
+      } catch (err) {
+        error = err;
       }
 
       if (ret.entry) return ret;

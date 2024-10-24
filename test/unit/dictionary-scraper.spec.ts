@@ -1,4 +1,9 @@
-import { CambridgeScraper, DictionaryScraper, Source, Word } from '../../src';
+import {
+  CambridgeScraper,
+  DictionaryScraper,
+  SourceConst,
+  Word,
+} from '../../src';
 import CambridgeReader from '../fake/cambridge-reader';
 
 const scraper = new DictionaryScraper();
@@ -18,7 +23,7 @@ describe('DictionaryScraper::search()', () => {
       new CambridgeReader('https://dictionary.cambridge.org'),
     );
 
-    scraper.registerScraper(Source.CAMBRIDGE, cambridgeScraper);
+    scraper.registerScraper(SourceConst.CAMBRIDGE, cambridgeScraper);
   });
 
   test('search should return expected data', async () => {
@@ -26,7 +31,7 @@ describe('DictionaryScraper::search()', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
-      source: Source.CAMBRIDGE,
+      source: SourceConst.CAMBRIDGE,
       name: VALID_WORD.toLowerCase(),
       entry: {
         ipa_listings: {
@@ -104,7 +109,7 @@ describe('DictionaryScraper::registerScraper()', () => {
     const validScraper = { scrape: () => Promise.resolve(undefined) };
 
     expect(
-      scraper.registerScraper(Source.CAMBRIDGE, validScraper),
+      scraper.registerScraper(SourceConst.CAMBRIDGE, validScraper),
     ).toBeUndefined();
   });
 
@@ -113,7 +118,6 @@ describe('DictionaryScraper::registerScraper()', () => {
     [null],
     [''],
     ['  '],
-    ['multi word'],
     [[]],
     [{}],
     [['some', 'words']],
@@ -134,7 +138,7 @@ describe('DictionaryScraper::registerScraper()', () => {
 
     await expect(async () =>
       // @ts-expect-error: For JS only
-      scraper.registerReader(Source.CAMBRIDGE, invalidScraper),
+      scraper.registerReader(SourceConst.CAMBRIDGE, invalidScraper),
     ).rejects.toThrowError(Error);
   });
 });

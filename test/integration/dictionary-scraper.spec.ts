@@ -1,4 +1,4 @@
-import { DictionaryScraper, Source, Word } from '../../src';
+import { DictionaryScraper, SourceConst, Word } from '../../src';
 
 describe('DictionaryScraper::search()', () => {
   const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
@@ -12,7 +12,7 @@ describe('DictionaryScraper::search()', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
-      source: Source.CAMBRIDGE,
+      source: SourceConst.CAMBRIDGE,
       name: VALID_SINGLE_PURPOSE_WORD,
       entry: {
         ipa_listings: {
@@ -83,7 +83,7 @@ describe('DictionaryScraper::search()', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
-      source: Source.CAMBRIDGE,
+      source: SourceConst.CAMBRIDGE,
       name: VALID_MULTI_CATEGORY_WORD,
       entry: {
         ipa_listings: {
