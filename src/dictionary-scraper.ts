@@ -1,6 +1,6 @@
 import { cleanWord } from './lib';
 import { CambridgeScraper } from './scrapers';
-import { Source, Word, Reader, Scraper } from './types';
+import { Source, Word, Scraper } from './types';
 
 /**
  * Scrape online dictionaries to retrieve the IPA, definitions and examples sentences of a word
@@ -50,32 +50,21 @@ export default class DictionaryScraper {
   }
 
   /**
-   * Set a reader against a source
-   *
-   * The Reader essentially retrieves a response from a URI and returns the results for a specific source, such as the Cambridge Online Dictionary.
-   * The DictionaryScraper class already provides a default reader for each source, and in most cases, you won’t need to use this method to register your own version.
-   * There are two main reasons for this method’s existence:
-   *
-   * 1.	The default reader will be updated as needed when circumstances change. However, if you prefer not to update or upgrade, you can create and register a custom reader using this method.
-   * 2.	For unit testing purposes, you can provide a mock reader so that the scraper does not need to connect to the internet.
+   * Set a scraper against a source
    *
    * @param {Source} source
-   * @param {Reader} reader
+   * @param {Scraper} scraper
    * @returns {void}
    */
-  registerReader(source: Source, reader: Reader): void {
+  registerScraper(source: Source, scraper: Scraper): void {
     if (typeof source !== 'string' || !this.channels.includes(source)) {
       throw new Error(`source must be one of the following: ${this.channels}`);
     }
-    if (
-      !reader ||
-      typeof reader.read !== 'function' ||
-      typeof reader.baseUri !== 'string'
-    ) {
-      throw new Error('reader must implement Reader interface');
+    if (!scraper || typeof scraper.scrape !== 'function') {
+      throw new Error('scraper must implement Scraper interface');
     }
 
-    this.scrapers.get(source)?.setReader(reader);
+    this.scrapers.set(source, scraper);
   }
 
   /**

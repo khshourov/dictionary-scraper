@@ -1,4 +1,4 @@
-import { DictionaryScraper, Source, Word } from '../../src';
+import { CambridgeScraper, DictionaryScraper, Source, Word } from '../../src';
 import CambridgeReader from '../fake/cambridge-reader';
 
 const scraper = new DictionaryScraper();
@@ -8,15 +8,17 @@ describe('DictionaryScraper::search()', () => {
   const NONSENSICAL_WORD = 'prisencolinensinainciusol';
 
   beforeAll(() => {
-    scraper.registerReader(
-      Source.CAMBRIDGE,
-      /*
-        We have to set real base-url as CambridgeScraper use that base-url
-        base-url to generate full audio-link. Without setting proper base-url
-        will result in failed test.
-      */
+    const cambridgeScraper = new CambridgeScraper();
+    /*
+      We have to set real base-url as CambridgeScraper use that base-url
+      base-url to generate full audio-link. Without setting proper base-url
+      will result in failed test.
+    */
+    cambridgeScraper.setReader(
       new CambridgeReader('https://dictionary.cambridge.org'),
     );
+
+    scraper.registerScraper(Source.CAMBRIDGE, cambridgeScraper);
   });
 
   test('search should return expected data', async () => {
@@ -97,7 +99,7 @@ describe('DictionaryScraper::search()', () => {
   });
 });
 
-describe('DictionaryScraper::registerReader()', () => {
+describe('DictionaryScraper::registerScraper()', () => {
   test.each([
     [undefined],
     [null],
@@ -109,22 +111,22 @@ describe('DictionaryScraper::registerReader()', () => {
     [['some', 'words']],
     [{ key: 'value' }],
     [() => {}],
-  ])('given %s, registerReader should throw error', async (invalidSource) => {
+  ])('given %s, registerScraper should throw error', async (invalidSource) => {
     await expect(async () =>
-      scraper.registerReader(
+      scraper.registerScraper(
         // @ts-expect-error: For JS only
         invalidSource,
-        new CambridgeReader('https://dictionary.cambridge.org'),
+        new CambridgeScraper(),
       ),
     ).rejects.toThrowError(Error);
   });
 
-  test('registerReader should throw error if reader does not implement Reader interface', async () => {
-    const reader = () => {};
+  test('registerScraper should throw error if reader does not implement Scraper interface', async () => {
+    const invalidScraper = () => {};
 
     await expect(async () =>
       // @ts-expect-error: For JS only
-      scraper.registerReader(Source.CAMBRIDGE, reader),
+      scraper.registerReader(Source.CAMBRIDGE, invalidScraper),
     ).rejects.toThrowError(Error);
   });
 });
