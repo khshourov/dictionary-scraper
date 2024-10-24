@@ -8,9 +8,8 @@ describe('CambridgeScraper::scrape()', () => {
   const VALID_SINGLE_PURPOSE_WORD = 'hello';
   const NONSENSICAL_WORD = 'prisencolinensinainciusol';
 
-  const scraper = new CambridgeScraper(
-    new CambridgeReader('https://dictionary.cambridge.org'),
-  );
+  const scraper = new CambridgeScraper();
+  scraper.setReader(new CambridgeReader('https://dictionary.cambridge.org'));
 
   test('scrape should return expected data for valid single category word', async () => {
     const ret = await scraper.scrape(VALID_SINGLE_PURPOSE_WORD);
@@ -301,6 +300,38 @@ describe('CambridgeScraper::scrape()', () => {
     // @ts-expect-error: For JS only
     await expect(scraper.scrape(invalidWord)).rejects.toThrowError(
       'A single non-empty alphabetic string is required',
+    );
+  });
+});
+
+describe('CambridgeScraper::setReader()', () => {
+  const scraper = new CambridgeScraper();
+
+  test('setReader should accept a valid reader instance', () => {
+    const validReader = {
+      baseUri: 'https://example.com',
+      read: () => Promise.resolve('data'),
+    };
+
+    expect(scraper.setReader(validReader)).toBeUndefined();
+  });
+
+  test.each([
+    [undefined],
+    [null],
+    [''],
+    ['  '],
+    [[]],
+    [{}],
+    [['some', 'words']],
+    [{ key: 'value' }],
+    [() => {}],
+    [{read: () => {}}], // baseUri property missing
+    [{baseUri: 'https://example.com'}] // read method missing
+  ])('setReader throws exception for invalid reader implemention', async (invalidReader) => {
+    // @ts-expect-error: For JS only
+    await expect(async () => scraper.setReader(invalidReader)).rejects.toThrowError(
+      'reader must implement Reader interface',
     );
   });
 });

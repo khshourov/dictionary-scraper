@@ -8,15 +8,24 @@ import {
   DictionaryEntry,
 } from '../types/word';
 import { cleanWord } from '../lib';
+import { CambridgeReader } from '../readers';
 
 export default class CambridgeScraper implements Scraper {
   private reader: Reader;
 
-  constructor(reader: Reader) {
-    this.reader = reader;
+  constructor() {
+    this.reader = new CambridgeReader('https://dictionary.cambridge.org');
   }
 
   setReader(reader: Reader): void {
+    if (
+      !reader ||
+      typeof reader.read !== 'function' ||
+      typeof reader.baseUri !== 'string'
+    ) {
+      throw new Error('reader must implement Reader interface');
+    }
+
     this.reader = reader;
   }
 

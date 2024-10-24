@@ -1,5 +1,4 @@
 import { cleanWord } from './lib';
-import { CambridgeReader } from './readers';
 import { CambridgeScraper } from './scrapers';
 import { Source, Word, Reader, Scraper } from './types';
 
@@ -47,10 +46,7 @@ export default class DictionaryScraper {
    * @constructor
    */
   constructor() {
-    const cambridgeReader = new CambridgeReader(
-      'https://dictionary.cambridge.org',
-    );
-    this.scrapers.set(Source.CAMBRIDGE, new CambridgeScraper(cambridgeReader));
+    this.scrapers.set(Source.CAMBRIDGE, new CambridgeScraper());
   }
 
   /**
