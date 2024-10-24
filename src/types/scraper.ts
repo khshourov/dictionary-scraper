@@ -1,7 +1,7 @@
 import Reader from './reader';
-import Word from './word';
+import { DictionaryEntry } from './word';
 
 export default interface Scraper {
   setReader?: (reader: Reader) => void;
-  scrape(word: string): Promise<Word['entry']>;
+  scrape(word: string): Promise<DictionaryEntry | undefined>;
 }

@@ -1,12 +1,24 @@
 import {
   CambridgeScraper,
   DictionaryScraper,
+  Scraper,
   SourceConst,
   Word,
 } from '../../src';
 import CambridgeReader from '../fake/cambridge-reader';
 
 const scraper = new DictionaryScraper();
+
+const scrapers: { [key in string]: Scraper } = {
+  undefined: { scrape: () => Promise.resolve(undefined) },
+  empty: { scrape: () => Promise.resolve({}) },
+  valid: {
+    scrape: () =>
+      Promise.resolve({
+        ipa_listings: { us: [{ category: 'noun', ipa: '', audio: '' }] },
+      }),
+  },
+};
 
 describe('DictionaryScraper::search()', () => {
   const VALID_WORD = 'Hello';
@@ -99,6 +111,34 @@ describe('DictionaryScraper::search()', () => {
 
   test('search should return null for nonsensical word', async () => {
     const ret = await scraper.search(NONSENSICAL_WORD);
+
+    expect(ret).toBeNull();
+  });
+
+  test('search should sift through scrapers until lexical entry is found', async () => {
+    const scraper = new DictionaryScraper();
+    scraper.registerScraper(
+      SourceConst.CAMBRIDGE,
+      scrapers['undefined'] as Scraper,
+    );
+    scraper.registerScraper('empty', scrapers['empty'] as Scraper);
+    scraper.registerScraper('valid', scrapers['valid'] as Scraper);
+
+    const ret = await scraper.search(VALID_WORD);
+
+    expect(ret).not.toBeNull();
+    expect(ret?.source).toBe('valid');
+  });
+
+  test('search should return null if no scraper returns valid lexical entry', async () => {
+    const scraper = new DictionaryScraper();
+    scraper.registerScraper(
+      SourceConst.CAMBRIDGE,
+      scrapers['undefined'] as Scraper,
+    );
+    scraper.registerScraper('empty', scrapers['empty'] as Scraper);
+
+    const ret = await scraper.search(VALID_WORD);
 
     expect(ret).toBeNull();
   });

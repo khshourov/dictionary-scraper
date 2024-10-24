@@ -1,6 +1,7 @@
 import { cleanWord } from './lib';
 import { CambridgeScraper } from './scrapers';
 import { Source, Word, Scraper, SourceConst } from './types';
+import { DictionaryEntry } from './types/word';
 
 /**
  * Scrape online dictionaries to retrieve the IPA, definitions and examples sentences of a word
@@ -94,7 +95,7 @@ export default class DictionaryScraper {
         error = err;
       }
 
-      if (ret.entry) return ret;
+      if (this.validateLexicalEntry(ret.entry)) return ret;
     }
 
     if (error) {
@@ -102,5 +103,15 @@ export default class DictionaryScraper {
     }
 
     return null;
+  }
+
+  private validateLexicalEntry(entry: DictionaryEntry | undefined): boolean {
+    return (
+      entry !== null &&
+      typeof entry === 'object' &&
+      !Array.isArray(entry) &&
+      Object.getPrototypeOf(entry) === Object.prototype &&
+      ('ipa_listings' in entry || 'meanings' in entry)
+    );
   }
 }
