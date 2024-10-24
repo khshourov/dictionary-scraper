@@ -326,12 +326,15 @@ describe('CambridgeScraper::setReader()', () => {
     [['some', 'words']],
     [{ key: 'value' }],
     [() => {}],
-    [{read: () => {}}], // baseUri property missing
-    [{baseUri: 'https://example.com'}] // read method missing
-  ])('setReader throws exception for invalid reader implemention', async (invalidReader) => {
-    // @ts-expect-error: For JS only
-    await expect(async () => scraper.setReader(invalidReader)).rejects.toThrowError(
-      'reader must implement Reader interface',
-    );
-  });
+    [{ read: () => {} }], // baseUri property missing
+    [{ baseUri: 'https://example.com' }], // read method missing
+  ])(
+    'setReader throws exception for invalid reader implemention',
+    async (invalidReader) => {
+      await expect(async () =>
+        // @ts-expect-error: For JS only
+        scraper.setReader(invalidReader),
+      ).rejects.toThrowError('reader must implement Reader interface');
+    },
+  );
 });
