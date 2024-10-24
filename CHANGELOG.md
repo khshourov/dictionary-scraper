@@ -1,5 +1,11 @@
 # dictionary-scraper
 
+## 1.0.1
+
+### Patch Changes
+
+- 2fa1add: Updated package README.md
+
 ## 1.0.0
 
 ### Major Changes
