@@ -1,7 +1,13 @@
 import { JSDOM } from 'jsdom';
 
-import { Reader, Scraper, Word } from '../types';
-import { IPAListings, WordMeaning, CategoryMeaningEntry } from '../types/word';
+import { Reader, Scraper } from '../types';
+import {
+  IPAListings,
+  WordMeaning,
+  CategoryMeaningEntry,
+  DictionaryEntry,
+} from '../types/word';
+import { cleanWord } from '../lib';
 
 export default class CambridgeScraper implements Scraper {
   private reader: Reader;
@@ -14,12 +20,17 @@ export default class CambridgeScraper implements Scraper {
     this.reader = reader;
   }
 
-  async scrape(word: string): Promise<Word['entry']> {
+  async scrape(word: string): Promise<DictionaryEntry | undefined> {
     if (!this.reader) {
       throw new Error('Please provide a Reader instance in constructor');
     }
 
-    const entry: Word['entry'] = {};
+    word = cleanWord(word);
+    if (word.length === 0) {
+      throw new Error('A single non-empty alphabetic string is required');
+    }
+
+    const entry: DictionaryEntry = {};
     const data = await this.reader.read(word, 'pronunciation');
     if (!data) return undefined;
 

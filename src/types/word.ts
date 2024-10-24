@@ -20,15 +20,15 @@ export type IPAListings = {
   [key in string]: IPAInfo[];
 };
 
+export type DictionaryEntry = {
+  ipa_listings?: IPAListings | undefined;
+  meanings?: WordMeaning[];
+};
+
 type Word = {
   source: Source;
   name: string;
-  entry?:
-    | {
-        ipa_listings?: IPAListings | undefined;
-        meanings?: WordMeaning[];
-      }
-    | undefined;
+  entry?: DictionaryEntry | undefined;
 };
 
 export default Word;

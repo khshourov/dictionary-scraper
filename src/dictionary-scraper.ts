@@ -1,3 +1,4 @@
+import { cleanWord } from './lib';
 import { CambridgeReader } from './readers';
 import { CambridgeScraper } from './scrapers';
 import { Source, Word, Reader, Scraper } from './types';
@@ -92,13 +93,9 @@ export default class DictionaryScraper {
    * @returns {Promise<Word | null>}
    */
   async search(word: string): Promise<Word | null> {
-    if (
-      !word ||
-      typeof word !== 'string' ||
-      word.trim().length === 0 ||
-      word.trim().split(' ').length > 1
-    ) {
-      throw new Error('A single non-empty non-spaced string is required');
+    word = cleanWord(word);
+    if (word.length === 0) {
+      throw new Error('A single non-empty alphabetic string is required');
     }
 
     let error;

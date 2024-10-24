@@ -1,13 +1,13 @@
 import { DictionaryScraper, Source, Word } from '../../src';
 
-describe('Cambridge dictionary web scrapping', () => {
+describe('DictionaryScraper::search()', () => {
   const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
   const VALID_SINGLE_PURPOSE_WORD = 'hello';
   const NONSENSICAL_WORD = 'prisencolinensinainciusol';
 
   const scraper = new DictionaryScraper();
 
-  test('scraper should return expected data for valid single category word', async () => {
+  test('search should return expected data for valid single category word', async () => {
     const ret = await scraper.search(VALID_SINGLE_PURPOSE_WORD);
 
     expect(ret).not.toBeNull();
@@ -78,7 +78,7 @@ describe('Cambridge dictionary web scrapping', () => {
     });
   });
 
-  test('scraper should return expected data for valid multi category word', async () => {
+  test('search should return expected data for valid multi category word', async () => {
     const ret = await scraper.search(VALID_MULTI_CATEGORY_WORD);
 
     expect(ret).not.toBeNull();
@@ -258,7 +258,7 @@ describe('Cambridge dictionary web scrapping', () => {
     });
   });
 
-  test('scraper should return null for nonsensical word', async () => {
+  test('search should return null for nonsensical word', async () => {
     const ret = await scraper.search(NONSENSICAL_WORD);
 
     expect(ret).toBeNull();
