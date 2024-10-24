@@ -36,6 +36,7 @@ import { DictionaryEntry } from './types/word';
          ...
        ],
      }
+  }
  * Full response sample can be found in docs/example-respopnse-hello.json and docs/example-response-present.json.
  */
 export default class DictionaryScraper {
