@@ -70,7 +70,7 @@ export default class DictionaryScraper {
   /**
    * Scrape online dictionaries and returns lexical records.
    *
-   * The search method will sequentially check each online dictionary source (currently, only Cambridge is supported) to find lexical records for the word.
+   * The search method will sequentially check each online dictionary source (currently, only Cambridge is supported by default) to find lexical records for the word.
    * Once a record is found, it stops searching and returns immediately. If no records are found after checking all sources, it returns null.
    * Exceptions may be thrown for various reasons, such as connection or read timeouts, data parsing errors, and more.
    *
