@@ -100,6 +100,14 @@ describe('DictionaryScraper::search()', () => {
 });
 
 describe('DictionaryScraper::registerScraper()', () => {
+  test('registerScraper should accept a valid Scraper instance', () => {
+    const validScraper = { scrape: () => Promise.resolve(undefined) };
+
+    expect(
+      scraper.registerScraper(Source.CAMBRIDGE, validScraper),
+    ).toBeUndefined();
+  });
+
   test.each([
     [undefined],
     [null],
