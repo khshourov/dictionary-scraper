@@ -1,5 +1,11 @@
 # dictionary-scraper
 
+## 1.0.3
+
+### Patch Changes
+
+- 4ad66b8: Updated docs
+
 ## 1.0.2
 
 ### Patch Changes
