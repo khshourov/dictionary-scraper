@@ -63,7 +63,6 @@
     "typescript-eslint": "^8.10.0"
   },
   "dependencies": {
-    "@types/jsdom": "^21.1.7",
     "axios": "^1.7.7"
   }
 }
