@@ -11,7 +11,7 @@
   </a>
 <h3 align="center">Dictionary Scraper</h3>
   <p align="center">
-    Online dictionary scraper for the node.js and browser
+    Online dictionary scraper for the node.js
     <br />
     <a href="https://github.com/khshourov/dictionary-scraper/wiki"><strong>Explore the docs »</strong></a>
     <br />
@@ -39,7 +39,6 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#package-manager">Package Manager</a></li>
-        <li><a href="#cdn">CDN</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -81,10 +80,12 @@ $ yarn add dictionary-scraper
 Once the package is installed, you can import the library using `import` or `require` approach:
 
 ```js
-import { DictionaryScraper, Scraper } from 'dictionary-scraper';
+import { DictionaryScraper } from 'dictionary-scraper';
+
+const scraper = new DictionaryScraper();
 ```
 
-You can also use the default export:
+You can also use the default import:
 
 ```js
 import DictionaryScraper from 'dictionary-scraper';
@@ -98,14 +99,11 @@ If you use `require` for importing:
 const DictionaryScraper = require('dictionary-scraper');
 
 const scraper = new DictionaryScraper.DictionaryScraper();
-```
 
-### CDN
+// Or object de-structuring:
+const { DictionaryScraper } = require('dictionary-scraper');
 
-Using unpkg CDN:
-
-```html
-<script src="https://unpkg.com/dictionary-scraper/dist/dictionary-scraper.min.js"></script>
+const scraper = new DictionaryScraper();
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
