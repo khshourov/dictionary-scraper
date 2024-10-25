@@ -1,5 +1,11 @@
 # dictionary-scraper
 
+## 1.0.4
+
+### Patch Changes
+
+- e8f0a3b: Remove redundant package
+
 ## 1.0.3
 
 ### Patch Changes
