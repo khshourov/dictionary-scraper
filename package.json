@@ -1,6 +1,6 @@
 {
   "name": "dictionary-scraper",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Scrape dictionaries such as Cambridge and Oxford to generate structured data for a given word search",
   "main": "dist/index.js",
   "browser": "dist/dictionapy-scraper.min.js",

@@ -1,5 +1,11 @@
 # dictionary-scraper
 
+## 1.0.5
+
+### Patch Changes
+
+- 56146f2: Updated dependency list
+
 ## 1.0.4
 
 ### Patch Changes
