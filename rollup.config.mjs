@@ -1,7 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
-import json from '@rollup/plugin-json';
+import polyfillNode from 'rollup-plugin-polyfill-node';
 
 export default [{
   input: 'dist/index.js',
@@ -12,9 +12,12 @@ export default [{
     sourcemap: true,
   },
   plugins: [
-    resolve(),
+    polyfillNode(),
+    resolve({
+      browser: true,
+      preferBuiltins: false,
+    }),
     commonjs(),
     terser(),
-    json(),
   ],
 }];

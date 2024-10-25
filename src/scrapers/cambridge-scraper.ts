@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom';
+import { DOMParser } from 'linkedom';
 
 import { Reader, Scraper } from '../types';
 import {
@@ -58,13 +58,17 @@ export default class CambridgeScraper implements Scraper {
   private extractIPAListings(data: string): IPAListings | undefined {
     const ipaListings: IPAListings = {};
 
-    const dom = new JSDOM(data);
-    Array.from(dom.window.document.querySelectorAll('.pron-block')).forEach(
+    const dom = new DOMParser();
+    const html = dom.parseFromString(data, 'text/html');
+    Array.from(html.querySelectorAll('.pron-block')).forEach(
       (pronunciationBlock) => {
-        const partsOfSpeeches = this.extractPartsOfSpeeches(pronunciationBlock);
+        const partsOfSpeeches = this.extractPartsOfSpeeches(
+          pronunciationBlock as Element,
+        );
 
-        const regionWiseIPAInfo =
-          this.extractRegionWiseIPAInfo(pronunciationBlock);
+        const regionWiseIPAInfo = this.extractRegionWiseIPAInfo(
+          pronunciationBlock as Element,
+        );
         for (const ipaInfo of regionWiseIPAInfo) {
           for (const partsOfSpeech of partsOfSpeeches) {
             if (!ipaListings[ipaInfo.region]) {
@@ -89,8 +93,8 @@ export default class CambridgeScraper implements Scraper {
   }
 
   private extractMeanings(data: string): WordMeaning[] {
-    const dom = new JSDOM(data);
-    const document = dom.window.document;
+    const dom = new DOMParser();
+    const document = dom.parseFromString(data, 'text/html');
 
     // Selecting UK dictionary section; currently we're ignoring American and business English
     const ukDictionary = document.querySelector('.pr.dictionary .di-body');
@@ -99,7 +103,7 @@ export default class CambridgeScraper implements Scraper {
     }
 
     return Array.from(ukDictionary.querySelectorAll('.pr .entry-body__el')).map(
-      (categoryBlock) => this.extractCategory(categoryBlock),
+      (categoryBlock) => this.extractCategory(categoryBlock as Element),
     );
   }
 
