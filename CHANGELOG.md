@@ -1,5 +1,12 @@
 # dictionary-scraper
 
+## 1.0.2
+
+### Patch Changes
+
+- 151b3eb: - Removed browser build as scraping source doesn't allow XHR request from browser
+  - Fix importing/requiring issues
+
 ## 1.0.1
 
 ### Patch Changes
