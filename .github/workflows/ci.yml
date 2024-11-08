@@ -3,9 +3,12 @@
 
 name: CI
 
+env:
+  HUSKY: 0
+
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
 
 jobs:
@@ -18,23 +21,23 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run CI
-      run: npm run ci
+      - name: Run CI
+        run: npm run ci
 
-    - name: Run coverage
-      run: npm run test:coverage
+      - name: Run coverage
+        run: npm run test:coverage
 
-    - name: Upload results to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
