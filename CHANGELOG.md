@@ -1,5 +1,11 @@
 # dictionary-scraper
 
+## 1.1.0
+
+### Minor Changes
+
+- 09cad2c: - Include scraping source link(s) in the response object
+
 ## 1.0.5
 
 ### Patch Changes
