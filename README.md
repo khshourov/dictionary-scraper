@@ -1,7 +1,6 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+
 <a id="readme-top"></a>
-
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -22,11 +21,11 @@
   </p>
 
   <!-- PROJECT SHIELDS -->
-  [![CI](https://github.com/khshourov/dictionary-scraper/actions/workflows/ci.yml/badge.svg)](https://github.com/khshourov/dictionary-scraper/actions/workflows/ci.yml)
-  [![codecov](https://codecov.io/gh/khshourov/dictionary-scraper/graph/badge.svg?token=CJZ8KKBS0Y)](https://codecov.io/gh/khshourov/dictionary-scraper)
+
+[![CI](https://github.com/khshourov/dictionary-scraper/actions/workflows/ci.yml/badge.svg)](https://github.com/khshourov/dictionary-scraper/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/khshourov/dictionary-scraper/graph/badge.svg?token=CJZ8KKBS0Y)](https://codecov.io/gh/khshourov/dictionary-scraper)
+
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -49,18 +48,16 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 Scrape online dictionaries to retrieve the IPA, definitions and examples sentences of a word.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 ### Package manager
@@ -91,7 +88,7 @@ You can also use the default import:
 import DictionaryScraper from 'dictionary-scraper';
 
 const scraper = new DictionaryScraper();
-````
+```
 
 If you use `require` for importing:
 
@@ -108,9 +105,8 @@ const scraper = new DictionaryScraper();
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 ```js
@@ -121,6 +117,10 @@ const scraper = new DictionaryScraper();
  console.log(scraper.search('hello'));
  {
    source: 'cambridge',
+   sourceLinks: [
+     'https://dictionary.cambridge.org/pronunciation/english/hello',
+     'https://dictionary.cambridge.org/dictionary/english/hello',
+   ],
    name: 'hello',
    entry: {
      ipaListings: {
@@ -147,15 +147,15 @@ const scraper = new DictionaryScraper();
    }
 }
 ```
+
 Full response sample can be found in [docs/example-respopnse-hello.json](https://github.com/khshourov/dictionary-scraper/blob/main/docs/example-response-hello.json) and [docs/example-response-present.json](https://github.com/khshourov/dictionary-scraper/blob/main/docs/example-response-present.json).
 <br />
 See [docs](https://github.com/khshourov/dictionary-scraper/wiki) for more details.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
+
 ## Roadmap
 
 - [ ] Add wiktionary
@@ -164,18 +164,16 @@ See the [open issues](https://github.com/khshourov/dictionary-scraper/issues) fo
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Kamrul H Shourov - shourov.kamrul@gmail.com
@@ -184,14 +182,13 @@ Project Link: [https://github.com/khshourov/dictionary-scraper](https://github.c
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
-* [Great starter guide to build an NPM package](https://www.totaltypescript.com/how-to-create-an-npm-package)
-* [Another good resource for building an NPM package](https://dev.to/charperbonaroo/creating-a-ts-written-npm-package-for-use-in-node-js-or-browser-5gm3)
-* [Cambridge Online Dictionary](https://dictionary.cambridge.org/)
-* [Dictionary icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/dictionary)
+- [Great starter guide to build an NPM package](https://www.totaltypescript.com/how-to-create-an-npm-package)
+- [Another good resource for building an NPM package](https://dev.to/charperbonaroo/creating-a-ts-written-npm-package-for-use-in-node-js-or-browser-5gm3)
+- [Cambridge Online Dictionary](https://dictionary.cambridge.org/)
+- [Dictionary icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/dictionary)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
