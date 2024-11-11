@@ -21,12 +21,14 @@ export type IPAListings = {
 };
 
 export type DictionaryEntry = {
+  sourceLinks?: string[];
   ipaListings?: IPAListings | undefined;
   meanings?: WordMeaning[];
 };
 
 type Word = {
   source: Source;
+  sourceLinks: string[];
   name: string;
   entry?: DictionaryEntry | undefined;
 };

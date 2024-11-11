@@ -39,17 +39,19 @@ export default class CambridgeScraper implements Scraper {
       throw new Error('A single non-empty alphabetic string is required');
     }
 
-    const entry: DictionaryEntry = {};
+    const entry: DictionaryEntry = { sourceLinks: [] };
     const data = await this.reader.read(word, 'pronunciation');
     if (!data) return undefined;
 
-    entry.ipaListings = this.extractIPAListings(data);
+    entry.sourceLinks?.push(data.link);
+    entry.ipaListings = this.extractIPAListings(data.data);
     if (!entry.ipaListings) return undefined;
 
     entry.meanings = [];
     const dictionaryData = await this.reader.read(word, 'meaning');
     if (dictionaryData) {
-      entry.meanings = this.extractMeanings(dictionaryData);
+      entry.sourceLinks?.push(dictionaryData.link);
+      entry.meanings = this.extractMeanings(dictionaryData.data);
     }
 
     return entry;

@@ -23,6 +23,7 @@ const scrapers: { [key in string]: Scraper } = {
 describe('DictionaryScraper::search()', () => {
   const VALID_WORD = 'Hello';
   const NONSENSICAL_WORD = 'prisencolinensinainciusol';
+  const BASE_URL = 'https://dictionary.cambridge.org';
 
   beforeAll(() => {
     const cambridgeScraper = new CambridgeScraper();
@@ -31,9 +32,7 @@ describe('DictionaryScraper::search()', () => {
       base-url to generate full audio-link. Without setting proper base-url
       will result in failed test.
     */
-    cambridgeScraper.setReader(
-      new CambridgeReader('https://dictionary.cambridge.org'),
-    );
+    cambridgeScraper.setReader(new CambridgeReader(BASE_URL));
 
     scraper.registerScraper(SourceConst.CAMBRIDGE, cambridgeScraper);
   });
@@ -44,6 +43,10 @@ describe('DictionaryScraper::search()', () => {
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
       source: SourceConst.CAMBRIDGE,
+      sourceLinks: [
+        `${BASE_URL}/pronunciation/${VALID_WORD.toLowerCase()}`,
+        `${BASE_URL}/meaning/${VALID_WORD.toLowerCase()}`,
+      ],
       name: VALID_WORD.toLowerCase(),
       entry: {
         ipaListings: {

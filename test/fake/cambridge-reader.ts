@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import { Reader, ReadingPurpose } from '../../src/types';
+import { Reader, ReaderResponse, ReadingPurpose } from '../../src/types';
 
 export default class CambridgeReader implements Reader {
   public baseUri: string;
@@ -9,16 +9,17 @@ export default class CambridgeReader implements Reader {
     this.baseUri = baseUri;
   }
 
-  read(word: string, purpose: ReadingPurpose): Promise<string> {
+  read(word: string, purpose: ReadingPurpose): Promise<ReaderResponse> {
     const section = purpose === 'pronunciation' ? 'pronunciation' : 'meaning';
     return new Promise((resolve, reject) => {
       try {
-        resolve(
-          fs.readFileSync(
+        resolve({
+          link: `${this.baseUri}/${section}/${word}`,
+          data: fs.readFileSync(
             `test/resources/cambridge/${section}/${word}.html`,
             'utf8',
           ),
-        );
+        });
       } catch (err) {
         reject(err);
       }

@@ -12,6 +12,10 @@ import { DictionaryEntry } from './types/word';
  * >> console.log(scraper.search('hello'));
  * {
      source: 'cambridge',
+     sourceLinks: [
+       'https://dictionary.cambridge.org/pronunciation/english/hello',
+       'https://dictionary.cambridge.org/dictionary/english/hello',
+     ],
      name: 'hello',
      entry: {
        ipaListings: {
@@ -88,10 +92,15 @@ export default class DictionaryScraper {
     for (const [channel, scraper] of this.scrapers) {
       const ret: Word = {
         source: channel,
+        sourceLinks: [],
         name: word,
       };
       try {
         ret.entry = await scraper.scrape(word);
+        if (ret.entry && ret.entry.sourceLinks) {
+          ret.sourceLinks = ret.entry.sourceLinks;
+          delete ret.entry.sourceLinks;
+        }
       } catch (err) {
         error = err;
       }

@@ -7,15 +7,20 @@ describe('CambridgeScraper::scrape()', () => {
   const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
   const VALID_SINGLE_PURPOSE_WORD = 'hello';
   const NONSENSICAL_WORD = 'prisencolinensinainciusol';
+  const SOURCE_DOMAIN = 'https://dictionary.cambridge.org';
 
   const scraper = new CambridgeScraper();
-  scraper.setReader(new CambridgeReader('https://dictionary.cambridge.org'));
+  scraper.setReader(new CambridgeReader(SOURCE_DOMAIN));
 
   test('scrape should return expected data for valid single category word', async () => {
     const ret = await scraper.scrape(VALID_SINGLE_PURPOSE_WORD);
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<DictionaryEntry>({
+      sourceLinks: [
+        `${SOURCE_DOMAIN}/pronunciation/${VALID_SINGLE_PURPOSE_WORD}`,
+        `${SOURCE_DOMAIN}/meaning/${VALID_SINGLE_PURPOSE_WORD}`,
+      ],
       ipaListings: {
         us: [
           {
@@ -82,6 +87,10 @@ describe('CambridgeScraper::scrape()', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<DictionaryEntry>({
+      sourceLinks: [
+        `${SOURCE_DOMAIN}/pronunciation/${VALID_SINGLE_PURPOSE_WORD}us`,
+        `${SOURCE_DOMAIN}/meaning/${VALID_SINGLE_PURPOSE_WORD}us`,
+      ],
       ipaListings: {
         us: [
           {
@@ -101,6 +110,10 @@ describe('CambridgeScraper::scrape()', () => {
 
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<DictionaryEntry>({
+      sourceLinks: [
+        `${SOURCE_DOMAIN}/pronunciation/${VALID_MULTI_CATEGORY_WORD}`,
+        `${SOURCE_DOMAIN}/meaning/${VALID_MULTI_CATEGORY_WORD}`,
+      ],
       ipaListings: {
         us: [
           {
@@ -310,7 +323,7 @@ describe('CambridgeScraper::setReader()', () => {
   test('setReader should accept a valid reader instance', () => {
     const validReader = {
       baseUri: 'https://example.com',
-      read: () => Promise.resolve('data'),
+      read: () => Promise.resolve({ link: 'http://example.com', data: 'data' }),
     };
 
     expect(scraper.setReader(validReader)).toBeUndefined();

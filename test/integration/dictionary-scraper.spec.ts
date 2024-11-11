@@ -4,6 +4,7 @@ describe('DictionaryScraper::search()', () => {
   const VALID_MULTI_CATEGORY_WORD = 'present'; // By multi category, we mean word can be noun, verb, adjective etc
   const VALID_SINGLE_PURPOSE_WORD = 'hello';
   const NONSENSICAL_WORD = 'prisencolinensinainciusol';
+  const BASE_DOMAIN = 'https://dictionary.cambridge.org';
 
   const scraper = new DictionaryScraper();
 
@@ -13,6 +14,10 @@ describe('DictionaryScraper::search()', () => {
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
       source: SourceConst.CAMBRIDGE,
+      sourceLinks: [
+        `${BASE_DOMAIN}/pronunciation/english/${VALID_SINGLE_PURPOSE_WORD}`,
+        `${BASE_DOMAIN}/dictionary/english/${VALID_SINGLE_PURPOSE_WORD}`,
+      ],
       name: VALID_SINGLE_PURPOSE_WORD,
       entry: {
         ipaListings: {
@@ -84,6 +89,10 @@ describe('DictionaryScraper::search()', () => {
     expect(ret).not.toBeNull();
     expect(ret).toMatchObject<Word>({
       source: SourceConst.CAMBRIDGE,
+      sourceLinks: [
+        `${BASE_DOMAIN}/pronunciation/english/${VALID_MULTI_CATEGORY_WORD}`,
+        `${BASE_DOMAIN}/dictionary/english/${VALID_MULTI_CATEGORY_WORD}`,
+      ],
       name: VALID_MULTI_CATEGORY_WORD,
       entry: {
         ipaListings: {

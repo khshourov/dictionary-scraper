@@ -1,4 +1,4 @@
-import { Reader } from '../../src/types';
+import { Reader, ReaderResponse } from '../../src/types';
 
 export default class TimeoutReader implements Reader {
   public baseUri: string;
@@ -8,7 +8,7 @@ export default class TimeoutReader implements Reader {
   }
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  read(_word: string): Promise<string> {
+  read(_word: string): Promise<ReaderResponse> {
     return new Promise((_resolve, reject) => {
       reject(new Error('Read timeout'));
     });

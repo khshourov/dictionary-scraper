@@ -1,5 +1,9 @@
 {
   "source": "cambridge",
+  "sourceLinks": [
+    "https://dictionary.cambridge.org/pronunciation/english/present",
+    "https://dictionary.cambridge.org/dictionary/english/present"
+  ],
   "name": "present",
   "entry": {
     "ipaListings": {
@@ -66,9 +70,7 @@
           },
           {
             "meaning": "now:",
-            "examples": [
-              "\"Are you busy?\" \"Not at present.\""
-            ]
+            "examples": ["\"Are you busy?\" \"Not at present.\""]
           }
         ]
       },
@@ -107,9 +109,7 @@
           },
           {
             "meaning": "to introduce a television or radio show:",
-            "examples": [
-              "She presents the late-night news."
-            ]
+            "examples": ["She presents the late-night news."]
           },
           {
             "meaning": "to introduce a person:",

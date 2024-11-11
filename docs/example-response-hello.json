@@ -1,5 +1,9 @@
 {
   "source": "cambridge",
+  "sourceLinks": [
+    "https://dictionary.cambridge.org/pronunciation/english/hello",
+    "https://dictionary.cambridge.org/dictionary/english/hello"
+  ],
   "name": "hello",
   "entry": {
     "ipaListings": {
@@ -51,9 +55,7 @@
           },
           {
             "meaning": "an expression of surprise:",
-            "examples": [
-              "Hello, this is very strange - I know that man."
-            ]
+            "examples": ["Hello, this is very strange - I know that man."]
           }
         ]
       }
