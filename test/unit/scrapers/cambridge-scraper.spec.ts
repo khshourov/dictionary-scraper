@@ -86,7 +86,7 @@ describe('CambridgeScraper::scrape()', () => {
     const ret = await scraper.scrape(`${VALID_SINGLE_PURPOSE_WORD}-us`);
 
     expect(ret).not.toBeNull();
-    expect(ret).toMatchObject<DictionaryEntry>({
+    expect(ret).toStrictEqual<DictionaryEntry>({
       sourceLinks: [
         `${SOURCE_DOMAIN}/pronunciation/${VALID_SINGLE_PURPOSE_WORD}us`,
         `${SOURCE_DOMAIN}/meaning/${VALID_SINGLE_PURPOSE_WORD}us`,
