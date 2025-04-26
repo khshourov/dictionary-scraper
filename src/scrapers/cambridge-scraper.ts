@@ -39,20 +39,24 @@ export default class CambridgeScraper implements Scraper {
       throw new Error('A single non-empty alphabetic string is required');
     }
 
-    const entry: DictionaryEntry = { sourceLinks: [] };
-    const data = await this.reader.read(word, 'pronunciation');
-    if (!data) return undefined;
+    const entry: DictionaryEntry = {
+      sourceLinks: [],
+    };
 
-    entry.sourceLinks?.push(data.link);
-    entry.ipaListings = this.extractIPAListings(data.data);
-    if (!entry.ipaListings) return undefined;
-
-    entry.meanings = [];
-    const dictionaryData = await this.reader.read(word, 'meaning');
-    if (dictionaryData) {
-      entry.sourceLinks?.push(dictionaryData.link);
-      entry.meanings = this.extractMeanings(dictionaryData.data);
+    const pronunciationData = await this.reader.read(word, 'pronunciation');
+    // Idioms do not have pronunciation data. Skip silently if not found
+    if (pronunciationData) {
+      entry.sourceLinks?.push(pronunciationData.link);
+      entry.ipaListings = this.extractIPAListings(pronunciationData.data);
     }
+
+    const dictionaryData = await this.reader.read(word, 'meaning');
+    if (!dictionaryData || !this.doesWordMeaningExist(dictionaryData.data)) {
+      return undefined;
+    }
+
+    entry.sourceLinks?.push(dictionaryData.link);
+    entry.meanings = this.extractMeanings(dictionaryData.data);
 
     return entry;
   }
@@ -94,6 +98,15 @@ export default class CambridgeScraper implements Scraper {
     return ipaListings;
   }
 
+  private doesWordMeaningExist(data: string): boolean {
+    const dom = new DOMParser();
+    const document = dom.parseFromString(data, 'text/html');
+    const title = document.querySelector(
+      '.di-title .headword.tw-bw.dhw',
+    )?.textContent;
+    return !!title;
+  }
+
   private extractMeanings(data: string): WordMeaning[] {
     const dom = new DOMParser();
     const document = dom.parseFromString(data, 'text/html');
@@ -104,9 +117,15 @@ export default class CambridgeScraper implements Scraper {
       throw new Error('No UK dictionary section found');
     }
 
-    return Array.from(ukDictionary.querySelectorAll('.pr .entry-body__el')).map(
-      (categoryBlock) => this.extractCategory(categoryBlock as Element),
-    );
+    const categoryMeanings = Array.from(
+      ukDictionary.querySelectorAll('.pr .entry-body__el'),
+    ).map((categoryBlock) => this.extractCategory(categoryBlock as Element));
+
+    const idiomMeanings = Array.from(
+      ukDictionary.querySelectorAll('.idiom-block .idiom-body'),
+    ).map((idiomBlock) => this.extractIdiom(idiomBlock as Element));
+
+    return [...categoryMeanings, ...idiomMeanings];
   }
 
   private extractPartsOfSpeeches(pronunciationBLock: Element): string[] {
@@ -151,6 +170,15 @@ export default class CambridgeScraper implements Scraper {
         categoryBlock.querySelector('.pos-header .posgram')?.textContent ?? '',
       entries: Array.from(
         categoryBlock.querySelectorAll('.pos-body .pr.dsense .def-block'),
+      ).map((meaningBlock) => this.extractMeaning(meaningBlock)),
+    };
+  }
+
+  private extractIdiom(idiomBlock: Element): WordMeaning {
+    return {
+      categories: 'idiom',
+      entries: Array.from(
+        idiomBlock.querySelectorAll('.idiom-body .pr.dsense .def-block'),
       ).map((meaningBlock) => this.extractMeaning(meaningBlock)),
     };
   }
