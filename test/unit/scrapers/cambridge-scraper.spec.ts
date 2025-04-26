@@ -88,8 +88,8 @@ describe('CambridgeScraper::scrape()', () => {
     expect(ret).not.toBeNull();
     expect(ret).toStrictEqual<DictionaryEntry>({
       sourceLinks: [
-        `${SOURCE_DOMAIN}/pronunciation/${VALID_SINGLE_PURPOSE_WORD}us`,
-        `${SOURCE_DOMAIN}/meaning/${VALID_SINGLE_PURPOSE_WORD}us`,
+        `${SOURCE_DOMAIN}/pronunciation/${VALID_SINGLE_PURPOSE_WORD}-us`,
+        `${SOURCE_DOMAIN}/meaning/${VALID_SINGLE_PURPOSE_WORD}-us`,
       ],
       ipaListings: {
         us: [
@@ -101,11 +101,50 @@ describe('CambridgeScraper::scrape()', () => {
           },
         ],
       },
-      meanings: [],
+      meanings: [
+        {
+          categories: 'exclamation, noun',
+          entries: [
+            {
+              meaning: 'used when meeting or greeting someone:',
+              examples: [
+                "Hello, Paul. I haven't seen you for ages.",
+                "I know her vaguely - we've exchanged hellos a few times.",
+                "say hello I just thought I'd call by and say hello.",
+                "a big hello And a big hello (= welcome) to all the parents who've come to see the show.",
+              ],
+            },
+            {
+              meaning:
+                'something that is said at the beginning of a phone conversation:',
+              examples: [
+                '"Hello, I\'d like some information about flights to the US, please."',
+              ],
+            },
+            {
+              meaning: "something that is said to attract someone's attention:",
+              examples: [
+                'The front door was open so she walked inside and called out, "Hello! Is there anybody in?"',
+              ],
+            },
+            {
+              meaning:
+                'said to someone who has just said or done something stupid, especially something that shows they are not noticing what is happening:',
+              examples: [
+                'She asked me if I\'d just arrived and I was like "Hello, I\'ve been here for an hour."',
+              ],
+            },
+            {
+              meaning: 'an expression of surprise:',
+              examples: ['Hello, this is very strange - I know that man.'],
+            },
+          ],
+        },
+      ],
     });
   });
 
-  test('search should return expected data for valid multi category word', async () => {
+  test('scrape should return expected data for valid multi category word', async () => {
     const ret = await scraper.scrape(VALID_MULTI_CATEGORY_WORD);
 
     expect(ret).not.toBeNull();
@@ -277,6 +316,121 @@ describe('CambridgeScraper::scrape()', () => {
               examples: [
                 'Medical conditions might present differently during pregnancy.',
                 'present as Bone cancer generally presents as pain in the area of the tumour.',
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  test('scrape should return expected data for valid single category word containing hyphen "get-go"', async () => {
+    const ret = await scraper.scrape('get-go');
+
+    expect(ret).not.toBeNull();
+    expect(ret).toStrictEqual<DictionaryEntry>({
+      sourceLinks: [
+        `${SOURCE_DOMAIN}/pronunciation/get-go`,
+        `${SOURCE_DOMAIN}/meaning/get-go`,
+      ],
+      ipaListings: {
+        us: [
+          {
+            category: '',
+            ipa: '/ˈɡetˌɡoʊ/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/us_pron/c/cdo/cdo03/cdo0318usgetg2042.mp3',
+          },
+        ],
+        uk: [
+          {
+            category: '',
+            ipa: '/ˈɡetˌɡəʊ/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/uk_pron/c/cdo/cdo02/cdo0216getguk0821.mp3',
+          },
+        ],
+      },
+      meanings: [
+        {
+          categories: 'noun [ S ]',
+          entries: [
+            {
+              meaning:
+                'the beginning, when someone starts to do something, or a process starts:',
+              examples: [
+                'from the get-go The latest research shows that babies can be taught the difference between night and day from the get-go.',
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  test('scrape should return expected data for valid word containing apostrophe "it\'s"', async () => {
+    const ret = await scraper.scrape("it's");
+
+    expect(ret).not.toBeNull();
+    expect(ret).toStrictEqual<DictionaryEntry>({
+      sourceLinks: [
+        `${SOURCE_DOMAIN}/pronunciation/it-s`,
+        `${SOURCE_DOMAIN}/meaning/it-s`,
+      ],
+      ipaListings: {
+        us: [
+          {
+            category: '',
+            ipa: '/ɪts/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/us_pron/e/eus/eus72/eus72619.mp3',
+          },
+        ],
+        uk: [
+          {
+            category: '',
+            ipa: '/ɪts/',
+            audio:
+              'https://dictionary.cambridge.org/media/english/uk_pron/u/uki/ukiti/ukitine002.mp3',
+          },
+        ],
+      },
+      meanings: [
+        {
+          categories: '',
+          entries: [
+            {
+              meaning: 'short form of it is:',
+              examples: ["It's my turn to do it."],
+            },
+            {
+              meaning: 'short form of it has:',
+              examples: ["It's been a wonderful day - thank you."],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  test('scrape should return expected data for valid idiom "get ahold of"', async () => {
+    const ret = await scraper.scrape('get ahold of');
+
+    expect(ret).not.toBeNull();
+    expect(ret).toStrictEqual<DictionaryEntry>({
+      sourceLinks: [
+        `${SOURCE_DOMAIN}/pronunciation/get-ahold-of`,
+        `${SOURCE_DOMAIN}/meaning/get-ahold-of`,
+      ],
+      ipaListings: undefined,
+      meanings: [
+        {
+          categories: 'idiom',
+          entries: [
+            {
+              meaning: 'to communicate with someone by phone:',
+              examples: [
+                'I’m trying to get ahold of some of these people for our meeting tomorrow.',
               ],
             },
           ],

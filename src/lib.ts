@@ -3,5 +3,9 @@ export function cleanWord(word: string) {
     word = '';
   }
 
-  return word.replace(/[^a-zA-Z]/g, '').toLowerCase();
+  return word
+    .trim()
+    .replace(/[ ']/g, '-')
+    .replace(/[^a-zA-Z-]/g, '')
+    .toLowerCase();
 }
